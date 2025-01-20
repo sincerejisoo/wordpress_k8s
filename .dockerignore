@@ -1,0 +1,5 @@
+Dockerfile
+.git
+docker-compose.yml
+node_modules
+load_test

@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress
+specs:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordpress
+  template:
+    metadata:
+      labels:
+        app: wordpress
+    spec:
+      containers:
+        - name: wordpress
+          image: wordpress:php8.3-apache
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+          volumeMounts:
+            - name: wp-config
+              mountPath: /var/www/html/wp-config.php
+            - name: wp-plugins
+              mountPath: /var/www/html/wp-content/plugins
+      volumes:
+        - name: wp-config
+          hostPath:
+
+kind: Deployment
+metadata:
+  name: db
+specs:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+        - name: db
+          image: mysql:8.4
+          env:
+            - name: MYSQL_DATABASE
+              value: wordpress_db
+            - name: MYSQL_USER
+              value: wp_admin
+            - name: MYSQL_PASSWORD
+              value: cicd1234
+            - name: MYSQL_ROOT_PASSWORD
+              value: cicd1234
+          volumeMounts:
+            - name: db-data
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: db-data
+          hostPath:

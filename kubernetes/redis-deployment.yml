@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-redis
+specs:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-redis
+  template:
+    metadata:
+      labels:
+        app: db-redis
+    spec:
+      containers:
+        - name: db-redis
+          image: redis:7.4.2
+          volumeMounts:
+            - name: wp-config
+              mountPath: /var/www/html/wp-config.php
+            - name: wp-plugins
+              mountPath: /var/www/html/wp-content/plugins
+      volumes:
+        - name: wp-config
+          hostPath:
+

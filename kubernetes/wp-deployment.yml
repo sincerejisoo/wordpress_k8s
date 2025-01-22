@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress
+specs:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordpress
+  template:
+    metadata:
+      labels:
+        app: wordpress
+    spec:
+      containers:
+        - name: wordpress
+          image: wordpress:php8.3-apache
+          volumeMounts:
+            - name: wp-config
+              mountPath: /var/www/html/wp-config.php
+            - name: wp-plugins
+              mountPath: /var/www/html/wp-content/plugins
+      volumes:
+        - name: wp-config
+          hostPath:
+

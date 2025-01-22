@@ -96,6 +96,9 @@ define('WP_REDIS_PORT', '6379');
 // define( 'WP_DEBUG', true );
 // define( 'WP_ENVIRONMENT_TYPE', 'development' );
 
+define( 'AUTOMATIC_UPDATER_DISABLED', true );
+define( 'WP_AUTO_UPDATE_CORE', false );
+
 /* That's all, stop editing! Happy publishing. */
 
 /** Absolute path to the WordPress directory. */

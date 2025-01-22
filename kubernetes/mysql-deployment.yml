@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+specs:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+        - name: db
+          image: mysql:8.4
+          volumeMounts:
+            - name: wp-config
+              mountPath: /var/www/html/wp-config.php
+            - name: wp-plugins
+              mountPath: /var/www/html/wp-content/plugins
+      volumes:
+        - name: wp-config
+          hostPath:
+

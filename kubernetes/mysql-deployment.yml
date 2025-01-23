@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: db
+  name: db-deployment
 specs:
   replicas: 1
   selector:
@@ -20,6 +20,15 @@ specs:
               mountPath: /var/www/html/wp-config.php
             - name: wp-plugins
               mountPath: /var/www/html/wp-content/plugins
+          env:
+            - name: MYSQL_DATABASE
+              value: wordpress_db
+            - name: MYSQL_USER
+              value: wp_admin
+            - name: MYSQL_PASSWORD
+              value: cicd1234
+            - name: MYSQL_ROOT_PASSWORD
+              value: cicd1234
       volumes:
         - name: wp-config
           hostPath:

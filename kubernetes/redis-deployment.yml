@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: db-redis
+  name: db-redis-deployment
 specs:
   replicas: 1
   selector:

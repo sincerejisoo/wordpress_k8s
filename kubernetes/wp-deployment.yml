@@ -15,11 +15,9 @@ specs:
       containers:
         - name: wordpress
           image: wordpress:php8.3-apache
-          volumeMounts:
-            - name: wp-config
-              mountPath: /var/www/html/wp-config.php
-            - name: wp-plugins
-              mountPath: /var/www/html/wp-content/plugins
+          env:
+            - name: DB_HOST_KUB
+              value: "auth-service.default"
       volumes:
         - name: wp-config
           hostPath:

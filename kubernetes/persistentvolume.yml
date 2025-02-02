@@ -7,7 +7,7 @@ metadata:
     type: aws-ebs
 spec:
   capacity:
-    storage: 10Gi
+    storage: 20Gi
   volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
@@ -15,24 +15,7 @@ spec:
   storageClassName: gp3
   csi:
     driver: ebs.csi.aws.com
-    volumeHandle: vol-02a21591428f3da98 
-
-# ---
-# apiVersion: v1
-# kind: PersistentVolume
-# metadata:
-#   name: mysql-pv
-# spec:
-#   capacity:
-#     storage: 10Gi
-#   volumeMode: Filesystem
-#   accessModes:
-#     - ReadWriteOnce
-#   persistentVolumeReclaimPolicy: Retain
-#   storageClassName: gp3
-#   awsElasticBlockStore:
-#     volumeID: vol-02a21591428f3da98
-#     fsType: ext4
+    volumeHandle: vol-0d801815ec573dd67
 
 ---
 apiVersion: v1
@@ -44,33 +27,16 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 10Gi
+      storage: 20Gi
   storageClassName: gp3
-
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: wp-content-pv
-  labels:
-    type: aws-ebs
-spec:
-  capacity:
-    storage: 20Gi
-  volumeMode: Filesystem
-  accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: gp3
-  csi:
-    driver: ebs.csi.aws.com
-    volumeHandle: vol-0dab186c7281d9979
 
 # ---
 # apiVersion: v1
 # kind: PersistentVolume
 # metadata:
 #   name: wp-content-pv
+#   labels:
+#     type: aws-ebs
 # spec:
 #   capacity:
 #     storage: 20Gi
@@ -79,10 +45,41 @@ spec:
 #     - ReadWriteOnce
 #   persistentVolumeReclaimPolicy: Retain
 #   storageClassName: gp3
-#   awsElasticBlockStore:
-#     volumeID: vol-0dab186c7281d9979
-#     fsType: ext4
+#   csi:
+#     driver: ebs.csi.aws.com
+#     volumeHandle: vol-0624f081572c7e51a
 
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: wp-content-pvc
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 20Gi
+#   storageClassName: gp3
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: wp-content-pv
+  labels:
+    type: aws-efs
+spec:
+  capacity:
+    storage: 20Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: efs-sc
+  csi:
+    driver: efs.csi.aws.com
+    volumeHandle: fs-0540fb2660a148492
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -90,8 +87,8 @@ metadata:
   name: wp-content-pvc
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 20Gi
-  storageClassName: gp3
+  storageClassName: efs-sc

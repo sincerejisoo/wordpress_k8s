@@ -28,13 +28,20 @@ spec:
         ports:
         - containerPort: 80
         - containerPort: 443
-        resources:
-          requests:
-            cpu: "500m"    # min 0.5 vCPU
-            memory: "512Mi" # max 512 MiB memory
-          limits:
-            cpu: "1"       # min 1 vCPU
-            memory: "1Gi"  # max 1 GiB memory
+        # resources:
+        #   requests:
+        #     cpu: "500m"    # min 0.5 vCPU
+        #     memory: "512Mi" # max 512 MiB memory
+        #   limits:
+        #     cpu: "1"       # min 1 vCPU
+        #     memory: "1Gi"  # max 1 GiB memory
+        volumeMounts:
+        - name: wp-content
+          mountPath: /var/www/html/wp-content
+      volumes:
+      - name: wp-content
+        persistentVolumeClaim:
+          claimName: wp-content-pvc    
 ---
 apiVersion: v1
 kind: Service

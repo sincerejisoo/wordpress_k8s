@@ -1,3 +1,4 @@
+---
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
@@ -7,4 +8,21 @@ volumeBindingMode: WaitForFirstConsumer
 allowVolumeExpansion: true
 parameters:
   type: gp3
-  zones: "ap-northeast-2a"  # 특정 AZ로 제한
+  zones: "ap-northeast-2a"
+
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: efs-sc
+provisioner: efs.csi.aws.com
+parameters:
+  provisioningMode: efs-ap
+  fileSystemId: fs-0540fb2660a148492
+  directoryPerms: "777"
+  gidRangeStart: "1000"
+  gidRangeEnd: "2000"
+  gidAllocate: "true"
+mountOptions:
+  - tls
+reclaimPolicy: Retain  

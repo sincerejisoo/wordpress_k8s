@@ -44,5 +44,12 @@ pipeline {
                 sh "docker rmi $repository:latest" // docker image 제거
             }
         } 
+        stage('Deploy to Kubernetes') { 
+            steps { 
+                script { 
+                    sh "kubectl rollout restart deploy/wordpress" // k8s deployment
+                }
+            }
+        }
     }
 }

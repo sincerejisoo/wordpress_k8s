@@ -1,7 +1,9 @@
-Dockerfile
+kubernetes
+load_test
+monitoring
+node_modules
+_docker_compose.txt
 .git
 .gitignore
-docker-compose.yml
-node_modules
-load_test
-kubernetes
+docker-compose*.yml
+Jenkinsfile

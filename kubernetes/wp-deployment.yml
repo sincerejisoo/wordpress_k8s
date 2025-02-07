@@ -38,6 +38,16 @@ spec:
         volumeMounts:
         - name: wp-content
           mountPath: /var/www/html/wp-content
+
+      # - name: node-exporter
+      #   image: prom/node-exporter
+      #   ports:
+      #   - containerPort: 9100    
+      #   resources:
+      #     requests:
+      #       cpu: "100m" 
+      #     limits:
+      #       cpu: "500m" 
       volumes:
       - name: wp-content
         persistentVolumeClaim:
@@ -58,6 +68,9 @@ spec:
   - port: 443
     targetPort: 443
     name: https
+  # - port: 9100
+  #   targetPort: 9100
+  #   name: node-exporter  
   selector:
     app: wordpress
 

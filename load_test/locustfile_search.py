@@ -3,28 +3,37 @@ import random as rd
 
 class UserBehavior(TaskSet):
     # visit random post
-    @task(30)
+    @task(40)
     def get_post(self):
         post_id = rd.randint(1, 10000)
         self.client.get(f'/sample-post-{post_id}')
 
     # search post with title
-    @task(30)
+    @task(25)
     def search_post_title(self):
         post_id = rd.randint(1, 10000)
-        self.client.get(f'/?s=Sample+Post+%23{post_id}')
-        self.client.get(f'/sample-post-{post_id}')
+        search_word = f"Sample%20Post%20%23{post_id}"
+        search_result = self.client.get(f'/wp-json/wp/v2/posts?search={search_word}').json()
+        if search_result:
+            post_name = rd.choice(search_result)["slug"]
+            post_id = post_name.split("-")[-1]
+            self.client.get(f'/sample-post-{post_id}')
         
     # search post with content    
-    @task(20)
+    @task(25)
     def search_post_content(self):
         post_id = rd.randint(1, 10000)
         random_words = ["alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta", "iota", "kappa", "lambda", "mu", "nu", "xi", "omicron", "pi", "rho", "sigma", "tau", "upsilon"]
         search_word = rd.choice(random_words)
-        self.client.get(f'/?s={search_word}')
-        self.client.get(f'/sample-post-{post_id}')
+        # self.client.get(f'/?s={search_word}')
+        # self.client.get(f'/sample-post-{post_id}')
+        search_result = self.client.get(f'/wp-json/wp/v2/posts?search={search_word}').json()
+        if search_result:
+            post_name = rd.choice(search_result)["slug"]
+            post_id = post_name.split("-")[-1]
+            self.client.get(f'/sample-post-{post_id}')
 
-    @task(20)
+    @task(10)
     def home(self):
         self.client.get('/')
 

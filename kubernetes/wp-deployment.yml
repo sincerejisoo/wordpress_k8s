@@ -30,8 +30,8 @@ spec:
         - containerPort: 443
         resources:
           requests:
-            cpu: "1"    # min 0.5 vCPU
-            memory: "2Gi" # max 512 MiB memory
+            cpu: "2"    # min 0.5 vCPU
+            memory: "4Gi" # max 512 MiB memory
           limits:
             cpu: "2"       # min 1 vCPU
             memory: "4Gi"  # max 1 GiB memory
